@@ -1,15 +1,27 @@
-from typing import List
 from dataclasses import dataclass, asdict
+from typing import List
 
 
+@dataclass
 class Text:
     text: str
     status: str
     rot_type: str
 
-    def __str__(self):
-        return ""
+    def for_json(self) -> dict:
+        return asdict(self)
 
 
 class Buffer:
-    _data: List[Text] = []
+    _data: List[dict] = []
+
+    def add_data(self, d: dict) -> None:
+        self._data.append(d)
+
+    @property
+    def data(self):
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        self._data = value
