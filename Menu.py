@@ -1,7 +1,7 @@
 import os
 
 from FileHandler import FileHandler
-from Cesar_Cipher import CesarCipher
+from cesar_cipher import CesarCipher
 
 
 class Menu:
