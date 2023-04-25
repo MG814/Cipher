@@ -1,9 +1,10 @@
-from Menu import Menu
+from menu import Menu
 
 
 def main():
-    menu = Menu()
-    menu.menu_logic()
+    while True:
+        menu = Menu()
+        menu.main_menu()
 
 
 if __name__ == "__main__":

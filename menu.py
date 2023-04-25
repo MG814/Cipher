@@ -1,79 +1,60 @@
-import os
+import sys
 
-from FileHandler import FileHandler
-from cesar_cipher import CesarCipher
+from file_handler import FileHandler
+from manager import Manager
 
 
 class Menu:
-    def show_menu(self):
-        print("1 - Zapis do pliku\n2 - Odczyt z pliku\n3 - Wyjdź")
+    def __init__(self):
+        self.file_handler = FileHandler()
+        self.manager = Manager()
+        self.type_rot = ""
+        self.options = {
+            1: {
+                1: self.type_cipher_menu,
+                2: self.manager.write,
+                3: self.decryption_menu,
+                4: self.manager.buffer.data,
+            },
+            2: {1: "rot13", 2: "rot47"},
+            3: {1: self.manager.cesar_decrypted, 2: self.manager.buffer.data},
+        }
 
-    def show_sub_menu(self, choice1: str, choice2: str):
-        print(f"1 - {choice1}\n2 - {choice2}")
+    def type_cipher_menu(self) -> None:
+        self.manager.enter_string()
 
-    def get_choice(self, min: int, max: int):
-        choice = int(input("Podaj odpowiednią cyfrę:\n"))
+        choice = int(input("Wybierz rodzaj szyfru:\n1 - rot13\n2 - rot47\n"))
+        self.type_menu_execute(choice)
 
-        if min > choice or choice > max:
-            raise WrongNumber
-        elif choice == "w":
-            raise ValueError("Proszę wybrać jedną z liczb podanych w menu.")
-        return choice
+        self.manager.cesar_encrypted(self.type_rot)
+        self.manager.add_to_buffer()
 
-    def menu_logic(self):
-        file_name = input("Podaj nazwę pliku:\n")
-        file_handler = FileHandler(file_name)
-        cipher = CesarCipher()
-        if os.path.exists(file_name + ".json"):
-            my_id = len(file_handler.read_file()) + 1
-            dict_buffer = file_handler.read_file()
-        else:
-            my_id = 1
-            dict_buffer = {}
-        while True:
-            self.show_menu()
-            try:
-                choice = self.get_choice(1, 3)
-                if choice == 1:
-                    dict = {}
-                    text = input("Text:\n")
-                    self.show_sub_menu("Szyfrowanie rot13", "Szyfrowanie rot47")  # źle
-                    sub_choice = self.get_choice(1, 2)
+    def main_menu(self) -> None:
+        choice = int(
+            input(
+                "\nMenu główne:\n1 - Zaszyfruj tekst\n2 - Zapis do pliku\n3 - Odczyt z pliku\n"
+                "4 - Pokaż dane gotowe do zapisu\n5 - Wyjdź\n"
+            )
+        )
+        self.execute(choice)
 
-                    if sub_choice == 1:
-                        dict["text"] = cipher.rot13(text)
-                        dict["status"] = "encrypted"
-                        dict["rot_type"] = "rot13"
-                    else:
-                        dict["text"] = cipher.rot47(text)
-                        dict["status"] = "encrypted"
-                        dict["rot_type"] = "rot47"
+    def decryption_menu(self) -> None:
+        self.manager.read()
+        choice = int(
+            input("Czy chcesz odszyfrować zawartość pliku?\n1 - Tak\n2 - Nie\n")
+        )
+        self.decryption_menu_execute(choice)
 
-                    dict_buffer[my_id] = dict
-                    my_id += 1
-                    file_handler.write_to_file(dict_buffer)
-                elif choice == 2:
-                    self.show_sub_menu("Dane odszyfrowane", "Dane zaszyfrowane")
-                    sub_choice = self.get_choice(1, 2)
+    def execute(self, choice: int) -> None:
+        if choice in range(1, 4, 1):
+            self.options.get(1).get(choice)()
+        elif choice == 4:
+            print(self.options.get(1).get(choice))
+        elif choice == 5:
+            sys.exit(0)
 
-                    if sub_choice == 1:
-                        dict = {}
-                        dict_buffer = file_handler.read_file()
-                        for k, v in file_handler.read_file().items():
-                            print(k)
-                            for key in v:
-                                if key == "text":
-                                    if v["rot_type"] == "rot13":
-                                        dict[key] = cipher.decryption_rot13(v[key])
-                                    elif v["rot_type"] == "rot47":
-                                        dict[key] = cipher.decryption_rot47(v[key])
-                                    print(dict[key])
-                                    dict_buffer[k][key] = dict[key]
-                                    dict_buffer[k]["status"] = "decrypted"
-                        print(dict_buffer)
-                    elif sub_choice == 2:
-                        print(file_handler.read_file())
-                elif choice == 3:
-                    break
-            except (WrongNumber, ValueError) as e:
-                print(e)
+    def type_menu_execute(self, choice: int) -> None:
+        self.type_rot = self.options.get(2).get(choice)
+
+    def decryption_menu_execute(self, choice: int) -> None:
+        self.options.get(3).get(choice)()
