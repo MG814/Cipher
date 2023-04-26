@@ -14,7 +14,6 @@ class Menu:
                 1: self.type_cipher_menu,
                 2: self.manager.write,
                 3: self.decryption_menu,
-                4: self.manager.buffer.data,
             },
             2: {1: "rot13", 2: "rot47"},
             3: {1: self.manager.cesar_decrypted, 2: self.manager.buffer.data},
@@ -28,18 +27,18 @@ class Menu:
 
         self.manager.cesar_encrypted(self.type_rot)
         self.manager.add_to_buffer()
+        print(self.manager.buffer.data)
 
     def main_menu(self) -> None:
         choice = int(
             input(
-                "\nMenu główne:\n1 - Zaszyfruj tekst\n2 - Zapis do pliku\n3 - Odczyt z pliku\n"
-                "4 - Pokaż dane gotowe do zapisu\n5 - Wyjdź\n"
+                "\nMenu główne:\n1 - Zaszyfruj tekst\n2 - Zapis do pliku\n3 - Odczyt z pliku\n4 - Wyjdź\n"
             )
         )
         self.execute(choice)
 
     def decryption_menu(self) -> None:
-        self.manager.read()
+        self.manager.read_to_buffer()
         choice = int(
             input("Czy chcesz odszyfrować zawartość pliku?\n1 - Tak\n2 - Nie\n")
         )
@@ -49,8 +48,6 @@ class Menu:
         if choice in range(1, 4, 1):
             self.options.get(1).get(choice)()
         elif choice == 4:
-            print(self.options.get(1).get(choice))
-        elif choice == 5:
             sys.exit(0)
 
     def type_menu_execute(self, choice: int) -> None:
