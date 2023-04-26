@@ -25,3 +25,6 @@ class Buffer:
     @data.setter
     def data(self, value):
         self._data = value
+
+    def clear_buffer(self):
+        self._data.clear()
