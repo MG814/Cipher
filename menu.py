@@ -19,6 +19,21 @@ class Menu:
             3: {1: self.manager.cesar_decrypted, 2: self.manager.buffer.data},
         }
 
+    def main_menu(self) -> None:
+        choice = int(
+            input(
+                "\nMenu główne:\n1 - Zaszyfruj tekst\n2 - Zapis do pliku\n3 - Odczyt z pliku\n4 - Wyjdź\n"
+            )
+        )
+        self.execute(choice)
+
+    def execute(self, choice: int) -> None:
+        if choice in range(1, 4, 1):
+            self.options.get(1).get(choice)()
+        elif choice == 4:
+            sys.exit(0)
+        self.manager.buffer.clear_buffer()
+
     def type_cipher_menu(self) -> None:
         self.manager.enter_string()
 
@@ -29,13 +44,8 @@ class Menu:
         self.manager.add_to_buffer()
         print(self.manager.buffer.data)
 
-    def main_menu(self) -> None:
-        choice = int(
-            input(
-                "\nMenu główne:\n1 - Zaszyfruj tekst\n2 - Zapis do pliku\n3 - Odczyt z pliku\n4 - Wyjdź\n"
-            )
-        )
-        self.execute(choice)
+    def type_menu_execute(self, choice: int) -> None:
+        self.type_rot = self.options.get(2).get(choice)
 
     def decryption_menu(self) -> None:
         self.manager.read_to_buffer()
@@ -44,14 +54,8 @@ class Menu:
         )
         self.decryption_menu_execute(choice)
 
-    def execute(self, choice: int) -> None:
-        if choice in range(1, 4, 1):
-            self.options.get(1).get(choice)()
-        elif choice == 4:
-            sys.exit(0)
-
-    def type_menu_execute(self, choice: int) -> None:
-        self.type_rot = self.options.get(2).get(choice)
-
     def decryption_menu_execute(self, choice: int) -> None:
-        self.options.get(3).get(choice)()
+        if choice == 1:
+            self.options.get(3).get(choice)()
+        elif choice == 2:
+            print(self.options.get(3).get(choice))
