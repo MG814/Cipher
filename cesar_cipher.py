@@ -6,9 +6,6 @@ class Rot(ABC):
     def rot_encryption(self, text: str):
         raise NotImplementedError
 
-    def rot_decryption(self, text: str):
-        raise NotImplementedError
-
     @staticmethod
     def create_rot(rot_type):
         rot_types = {"rot13": Rot13(), "rot47": Rot47()}
@@ -18,11 +15,11 @@ class Rot(ABC):
 class Rot13(Rot):
     def rot_encryption(self, text: str):
         abc = string.ascii_letters
-        return (lambda y: "".join([abc[(abc.find(x) + 13) % 35] for x in y]))(text)
+        return (lambda y: "".join([abc[(abc.find(x) + 13) % 52] for x in y]))(text)
 
     def rot_decryption(self, text: str):
         abc = string.ascii_letters
-        return (lambda y: "".join([abc[(abc.find(x) - 13) % 35] for x in y]))(text)
+        return (lambda y: "".join([abc[(abc.find(x) - 13) % 52] for x in y]))(text)
 
 
 class Rot47(Rot):
@@ -30,12 +27,5 @@ class Rot47(Rot):
         new = ""
         for x in text:
             if 33 <= ord(x) <= 126:
-                new += chr((ord(x) + 47) % 94)
-        return new
-
-    def rot_decryption(self, text: str):
-        new = ""
-        for x in text:
-            if 33 <= ord(x) <= 126:
-                new += chr((ord(x) - 47) % 94)
+                new += chr(33 + ((ord(x) + 14) % 94))
         return new
