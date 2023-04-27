@@ -32,7 +32,7 @@ class Menu:
             self.options.get(1).get(choice)()
         elif choice == 4:
             sys.exit(0)
-        self.manager.buffer.clear_buffer()
+        # self.manager.buffer.clear_buffer()
 
     def type_cipher_menu(self) -> None:
         self.manager.enter_string()

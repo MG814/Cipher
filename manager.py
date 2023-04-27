@@ -25,11 +25,14 @@ class Manager:
         self.file_handler.write_to_file(file_name, self.buffer)
 
     def read_to_buffer(self) -> None:
-        file_name = self.enter_file_name()
-        my_list = self.file_handler.read_file(file_name)
+        self.add_to_buffer_datafile()
         self.buffer.clear_buffer()
-        for item in my_list:
-            self.buffer.add_data(item)
+
+    def add_to_buffer_datafile(self):
+        file_name = self.enter_file_name()
+        file_data_list = self.file_handler.read_file(file_name)
+        for dictionary in file_data_list:
+            self.buffer.add_data(dictionary)
 
     def cesar_encrypted(self, new_rot_type="") -> str:
         self.rot_type = new_rot_type
