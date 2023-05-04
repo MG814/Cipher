@@ -11,12 +11,15 @@ class Text:
     def for_json(self) -> dict:
         return asdict(self)
 
+    # def __repr__(self):
+    #     pass
+
 
 class Buffer:
-    _data: List[dict] = []
+    _data: List[Text] = []
 
-    def add_data(self, d: dict) -> None:
-        self._data.append(d)
+    def add_data(self, item: Text) -> None:
+        self._data.append(item)
 
     @property
     def data(self):
