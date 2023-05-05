@@ -1,10 +1,10 @@
-from menu import Menu
+from manager import Manager
 
 
 def main():
     while True:
-        menu = Menu()
-        menu.main_menu()
+        manager = Manager()
+        manager.main_menu()
 
 
 if __name__ == "__main__":
