@@ -8,7 +8,7 @@ class AvailableRot:
 
 
 class Rot(ABC):
-    def rot_encryption(self, text: str, direction: str):
+    def encrypt_decrypt(self, text: str, direction: str):
         raise NotImplementedError
 
     @staticmethod
@@ -18,14 +18,14 @@ class Rot(ABC):
 
 
 class Rot13(Rot):
-    def rot_encryption(self, text: str, direction: str):
+    def encrypt_decrypt(self, text: str, direction: str) -> str:
         abc = string.ascii_letters
         shift = 13 if direction == "encrypted" else -13
         return (lambda y: "".join([abc[(abc.find(x) + shift) % 52] for x in y]))(text)
 
 
 class Rot47(Rot):
-    def rot_encryption(self, text: str, direction: str):
+    def encrypt_decrypt(self, text: str, direction: str) -> str:
         new = ""
         for x in text:
             if 33 <= ord(x) <= 126:

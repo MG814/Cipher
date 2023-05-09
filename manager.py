@@ -46,11 +46,13 @@ class Manager:
         for f_dict in file_data_list:
             self.buffer.add_data(Text(**f_dict))
 
-    def cesar_encrypted(self, new_rot_type: str = "") -> str:
-        encryption_string = Rot.create_rot(new_rot_type).rot_encryption(
+    def cesar_encrypted(self, new_rot_type: str) -> str:
+        encryption_string = Rot.create_rot(new_rot_type).encrypt_decrypt(
             self.string, "encrypted"
         )
+
         self.string = encryption_string
+
         print(f"Zaszyfrowano szyfrem typu {new_rot_type}")
         return encryption_string
 
@@ -64,7 +66,7 @@ class Manager:
     def cesar_decrypted_buffer(self, buffer_dict: Text) -> None:
         rot_type = buffer_dict.rot_type
 
-        buffer_dict.text = Rot.create_rot(rot_type).rot_encryption(
+        buffer_dict.text = Rot.create_rot(rot_type).encrypt_decrypt(
             buffer_dict.text, "decrypted"
         )
 
@@ -95,6 +97,7 @@ class Manager:
             self.type_menu_execute(choice)
 
             encrypted_str = self.cesar_encrypted(self.rot_type)
+
             self.buffer.add_data(Text(encrypted_str, "encrypted", self.rot_type))
             print(self.buffer.data)
         except ValueError:
