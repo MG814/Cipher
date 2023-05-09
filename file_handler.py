@@ -1,15 +1,15 @@
 import os
 import json
+from dataclasses import asdict
+
 from buffer import Buffer
 
 
 class FileHandler:
     @staticmethod
     def write_to_file(file_name: str, buffer: Buffer, extension: str = ".json") -> None:
-        dict_list = []
         with open(f"{file_name}{extension}", "w", encoding="utf-8") as file:
-            for text_obj in buffer.data:
-                dict_list.append(text_obj.for_json())
+            dict_list = [asdict(text_obj) for text_obj in buffer.data]
             json.dump(dict_list, file)
 
     @staticmethod

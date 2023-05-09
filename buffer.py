@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from typing import List
 
 
@@ -7,12 +7,6 @@ class Text:
     text: str
     status: str
     rot_type: str
-
-    def for_json(self) -> dict:
-        return asdict(self)
-
-    # def __repr__(self):
-    #     pass
 
 
 class Buffer:
@@ -29,5 +23,5 @@ class Buffer:
     def data(self, value):
         self._data = value
 
-    def clear_buffer(self):
+    def clear_buffer(self) -> None:
         self._data.clear()
