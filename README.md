@@ -39,6 +39,7 @@ on POSIX:
 `pip -r install requirements.txt`
 
 This will download the file with all the necessary extensions.
+
 To run the program, type:
 
 `python main.py`
