@@ -3,21 +3,21 @@
 
 
 ## Table of contents
-* [General information](#general-information).
-* [Used technologies](#used-technologies).
-* [Startup](#startup).
-* [Project status](#project-status).
+* [General information](#general-information)
+* [Used technologies](#used-technologies)
+* [Startup](#startup)
 
 
 ## General information
-- The goal of the project is to improve Python programming skills
-- Cipher is a program to encrypt and decrypt text using Caesar cipher with the ability to save the encrypted text to a file
-- This project was completed during the Python Dev-Mentoring programming course
+- The goal of the project is to improve Python programming skills.
+- Cipher is a program to encrypt and decrypt text using Caesar cipher with the ability to save the encrypted text to a file.
+- This project was completed during the Python Dev-Mentoring programming course.
 
 
 ## Used technologies
 - Python - version 3.10.4
-- Pytest - version 7.3.1
+- Pytest
+- Pre-commit
 
 
 ## Startup
@@ -39,6 +39,6 @@ on POSIX:
 `pip -r install requirements.txt`
 
 This will download the file with all the necessary extensions.
+To run the program, type:
 
-## Project status
-Project completed
+`python main.py`
